@@ -113,6 +113,10 @@ class CartController extends Controller
         $this->cart->delete($product_id);
     }
 
+    /**
+     * @param $validator
+     * @param $product_id
+     */
     private function validateProductExists($validator, $product_id)
     {
         $validator->after(function ($validator) use ($product_id) {

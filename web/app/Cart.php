@@ -54,6 +54,10 @@ class Cart
         });
     }
 
+    /**
+     * @param $product_id
+     * @param $quantity
+     */
     public function add($product_id, $quantity)
     {
         $product = $this->product->getProduct($product_id);

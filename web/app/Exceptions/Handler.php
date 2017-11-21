@@ -56,7 +56,6 @@ class Handler extends ExceptionHandler
         if (!$this->isApiCall($request)) {
             return parent::render($request, $exception);
         }
-        //return $this->prepareJsonResponse($request, $exception);
 
         return $this->getJsonResponseForException($request, $exception);
     }
