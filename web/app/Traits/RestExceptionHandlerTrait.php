@@ -5,6 +5,7 @@ namespace App\Traits;
 use Exception;
 use App\Exceptions\WrongFieldsException;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait RestExceptionHandlerTrait
 {
@@ -30,14 +31,22 @@ trait RestExceptionHandlerTrait
             ], 400);
         }
 
-        /*switch (true) {
-            case $this->isBadRequestHttpException($exception):
-                return $this->badRequestHttpException($exception->getMessage());
-            case $this->isNotFoundHttpException($exception):
-                return $this->notFoundHttpException($request->getPathInfo());
-            default:
-                return $this->fatalErrorException();
-        }*/
+        if ($exception instanceof HttpException) {
+
+            return $this->jsonResponse([
+                'errors' => [
+                    'message' => "Unable to resolve the request {$request->getPathInfo()}",
+                    'type' => "invalid_request_error"
+                ]
+            ], $exception->getStatusCode());
+        }
+
+        return $this->jsonResponse([
+            'errors' => [
+                'message' => 'Internal server error',
+                'type' => 'internal_server_error'
+            ]
+        ], 500);
     }
 
     /**
