@@ -2,7 +2,11 @@
 
 namespace App\Models;
 
-
+/**
+ * Class Product
+ * @package App\Models
+ * @author Mochalov Sergey <mochalov.serge@gmail.com>
+ */
 class Product
 {
     /**
@@ -43,5 +47,18 @@ class Product
     public function getProducts()
     {
         return $this->products;
+    }
+
+    /**
+     * @param int $product_id
+     * @return mixed
+     */
+    public function getProduct($product_id)
+    {
+        $product = $this->products->first(function ($item) use ($product_id) {
+            return $item['id'] == $product_id;
+        });
+
+        return $product;
     }
 }

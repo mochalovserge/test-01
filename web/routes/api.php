@@ -18,7 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/products', 'ProductController@products');
+Route::get('/product/{product_id}', 'ProductController@product')->where('product_id', '[0-9]+');
 
-Route::delete('/cart/{product_id}', 'CartController@delCart');
+Route::delete('/cart/{product_id}', 'CartController@delCart')->where('product_id', '[0-9]+');
 Route::post('/cart', 'CartController@addCart');
 Route::get('/cart', 'CartController@getCart');

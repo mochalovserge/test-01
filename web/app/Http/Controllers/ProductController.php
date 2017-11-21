@@ -22,4 +22,16 @@ class ProductController extends Controller
             'data' => $product->getProducts()
         ];
     }
+
+    /**
+     * @param int $product_id
+     * @param Product $product
+     * @return array
+     */
+    public function product($product_id, Product $product)
+    {
+        return [
+            'data' => $product->getProduct($product_id)
+        ];
+    }
 }
