@@ -44,6 +44,24 @@ class Cart
     }
 
     /**
+     * @return float
+     */
+    public function getProductsCount()
+    {
+        $this->products_count = $this->products->sum('quantity');
+        return $this->products_count;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotalSum()
+    {
+        $this->total_sum = round($this->products->sum('sum'), 2);
+        return $this->total_sum;
+    }
+
+    /**
      * @param $id
      * @return mixed
      */
@@ -62,7 +80,13 @@ class Cart
     {
         $product = $this->product->getProduct($product_id);
 
-        $this->products = session('cart', collect());
+//        if (!$this->products->count()) {
+//
+//            $this->products = session('cart', collect());
+//        }
+
+
+
         $key = $this->search($product_id);
 
         if (is_numeric($key)) {
@@ -93,12 +117,9 @@ class Cart
     {
         $this->products = session('cart', collect());
 
-        $this->total_sum = round($this->products->sum('sum'), 2);
-        $this->products_count = $this->products->sum('quantity');
-
         return [
-            'total_sum' => $this->total_sum,
-            'products_count' => $this->products_count,
+            'total_sum' => $this->getTotalSum(),
+            'products_count' => $this->getProductsCount(),
             'products' => array_values($this->products->toArray())
         ];
     }
